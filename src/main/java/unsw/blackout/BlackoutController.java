@@ -7,43 +7,48 @@ import unsw.response.models.EntityInfoResponse;
 import unsw.utils.Angle;
 
 public class BlackoutController {
+    private DeviceManager devices;
+    private SatelliteManager satellites;
+
+    // creates a new device with the specified id, type and position
     public void createDevice(String deviceId, String type, Angle position) {
-        // TODO: Task 1a)
+        protected Device device = new Device(deviceId, type, position);
+        devices.addDevice(device);
     }
 
     public void removeDevice(String deviceId) {
-        // TODO: Task 1b)
+        devices.removeDevice(deviceId);
     }
 
     public void createSatellite(String satelliteId, String type, double height, Angle position) {
-        // TODO: Task 1c)
+        protected Satellite satellite = new Satellite(satelliteId, type, height, position);
+        satellites.addSatellite(satellite);
     }
 
     public void removeSatellite(String satelliteId) {
-        // TODO: Task 1d)
+        sattelites.removeSatellite(satelliteId);
     }
 
     public List<String> listDeviceIds() {
-        // TODO: Task 1e)
-        return new ArrayList<>();
+        protected List<String> deviceIds = devices.getDevicesIds();
     }
 
     public List<String> listSatelliteIds() {
-        // TODO: Task 1f)
-        return new ArrayList<>();
+        protected List<String> satelliteIds = satellites.getSatellitesIds();
+        return satelliteIds;
     }
 
     public void addFileToDevice(String deviceId, String filename, String content) {
-        // TODO: Task 1g)
+        protected Device device = devices.getDevice(deviceId);
+        protected File file = new File(filename, content);
+        device.addFile(file);
     }
 
     public EntityInfoResponse getInfo(String id) {
-        // TODO: Task 1h)
         return null;
     }
 
     public void simulate() {
-        // TODO: Task 2a)
     }
 
     /**
@@ -57,21 +62,17 @@ public class BlackoutController {
     }
 
     public List<String> communicableEntitiesInRange(String id) {
-        // TODO: Task 2 b)
         return new ArrayList<>();
     }
 
     public void sendFile(String fileName, String fromId, String toId) throws FileTransferException {
-        // TODO: Task 2 c)
     }
 
     public void createDevice(String deviceId, String type, Angle position, boolean isMoving) {
         createDevice(deviceId, type, position);
-        // TODO: Task 3
     }
 
     public void createSlope(int startAngle, int endAngle, int gradient) {
-        // TODO: Task 3
         // If you are not completing Task 3 you can leave this method blank :)
     }
 }
