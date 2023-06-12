@@ -18,7 +18,7 @@ public class DeviceManager {
         // Find the device with the specified ID and remove it
         for (int i = 0; i < devices.size(); i++) {
             Device device = devices.get(i);
-            if (device.getId().equals(deviceId)) {
+            if (device.getDeviceId().equals(deviceId)) {
                 devices.remove(i);
                 break;
             }
@@ -32,7 +32,7 @@ public class DeviceManager {
     public Device getDevice(String deviceId) {
         // Find the device with the specified ID and return it
         for (Device device : devices) {
-            if (device.getId().equals(deviceId)) {
+            if (device.getDeviceId().equals(deviceId)) {
                 return device;
             }
         }
@@ -40,9 +40,9 @@ public class DeviceManager {
     }
 
     public List<String> getDeviceIds() {
-        List<String> deviceIds = new List<>();
+        List<String> deviceIds = new ArrayList<>();
         for (Device device : devices) {
-            deviceIds.add(device.getId());
+            deviceIds.add(device.getDeviceId());
         }
         return deviceIds;
     }

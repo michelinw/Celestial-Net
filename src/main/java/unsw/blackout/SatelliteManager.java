@@ -1,9 +1,10 @@
 package unsw.blackout;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SatelliteManager {
-    private Arraylist<satellite> satellites;
+    private ArrayList<Satellite> satellites;
 
     public SatelliteManager() {
         satellites = new ArrayList<>();
@@ -17,7 +18,7 @@ public class SatelliteManager {
         // Find the satellite with the specified ID and remove it
         for (int i = 0; i < satellites.size(); i++) {
             Satellite satellite = satellites.get(i);
-            if (satellite.getId().equals(satelliteId)) {
+            if (satellite.getSatelliteId().equals(satelliteId)) {
                 satellites.remove(i);
                 break;
             }
@@ -31,7 +32,7 @@ public class SatelliteManager {
     public Satellite getSatellite(String satelliteId) {
         // Find the satellite with the specified ID and return it
         for (Satellite satellite : satellites) {
-            if (satellite.getId().equals(satelliteId)) {
+            if (satellite.getSatelliteId().equals(satelliteId)) {
                 return satellite;
             }
         }
@@ -39,9 +40,9 @@ public class SatelliteManager {
     }
 
     public List<String> getSatelliteIds() {
-        List<String> satelliteIds = new List<>();
+        List<String> satelliteIds = new ArrayList<>();
         for (Satellite satellite : satellites) {
-            satelliteIds.add(satellite.getId());
+            satelliteIds.add(satellite.getSatelliteId());
         }
         return satelliteIds;
     }

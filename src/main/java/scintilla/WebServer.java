@@ -14,7 +14,7 @@ final class WebServer {
         port(port);
         ipAddress(ipAddress);
         // if (isSecure) {
-        //     // TODO:
+        // (was a todo here but was giving an error so removed)
         // }
 
         staticFiles.location("/");

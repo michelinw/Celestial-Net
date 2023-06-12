@@ -47,5 +47,18 @@ public class File {
         return true;
     }
 
+    public String getData() {
+        return content;
+    }
+
+    public int getFileSize() {
+        int size = ((int) this.getContent().length());
+        return size;
+    }
+
+    public boolean getIsFileComplete() {
+        return true;
+    }
+
 
 }
