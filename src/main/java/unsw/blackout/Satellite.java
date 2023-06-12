@@ -70,4 +70,28 @@ public class Satellite {
             return false;
         return true;
     }
+
+    public void simulate() {
+        // todo: simulate movement of satellite
+        double currentAngle = this.getPosition().toDegrees();
+
+        double newAngle = currentAngle + 1;
+        if (newAngle > 360) {
+            newAngle = newAngle - 360;
+        }
+
+        if (newAngle < 0) {
+            newAngle = newAngle + 360;
+        }
+
+        if (newAngle == 360) {
+            newAngle = 0;
+        }
+
+        if (this.type == "StandardSatellite") {
+            double angularVelocity = 2500 / (2 * Math.PI * this.height);
+        }
+
+        this.setPosition(newAngle);
+    }
 }

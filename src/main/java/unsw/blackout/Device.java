@@ -1,13 +1,12 @@
 package unsw.blackout;
 
 import unsw.utils.Angle;
-import java.util.ArrayList;
 
 public class Device {
     private String deviceId;
     private String type;
     private Angle position;
-    private ArrayList<file> files;
+    private FileManager files = new FileManager();
 
     public Device(String deviceId, String type, Angle position) {
         this.deviceId = deviceId;
@@ -37,6 +36,10 @@ public class Device {
 
     public void setPosition(Angle position) {
         this.position = position;
+    }
+
+    public FileManager getFileManager() {
+        return files;
     }
 
     @Override
@@ -72,6 +75,9 @@ public class Device {
     }
 
     public void addFile(File file) {
-        files.add(file);
+        files.addFile(file);
+    }
+
+    public void simulate() {
     }
 }
