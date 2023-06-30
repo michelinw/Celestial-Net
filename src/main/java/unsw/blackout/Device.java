@@ -31,7 +31,7 @@ public abstract class Device extends BaseEntity {
     @Override
     public void simulate() {
         this.normalTransferFile(this);
-        this.device2TeleportSatTransfer();
+        this.deviceToTeleportSatTransfer();
 
     }
 
@@ -39,7 +39,7 @@ public abstract class Device extends BaseEntity {
      * Special file transfer for teleporting satellites that will change file
      * content if teleportation occurs during transfer.
      */
-    private void device2TeleportSatTransfer() {
+    private void deviceToTeleportSatTransfer() {
         FileManager fileManager = this.getFileManager();
         ArrayList<File> sendFiles = fileManager.getInProgressFiles("SEND");
         if (!sendFiles.isEmpty()) {
