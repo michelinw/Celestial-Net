@@ -99,35 +99,35 @@ public abstract class BaseEntity {
         }
     }
 
-    protected void setMaxFiles(int maxFiles) {
+    public void setMaxFiles(int maxFiles) {
         this.maxFiles = maxFiles;
     }
 
-    protected void setMaxStorage(int maxStorage) {
+    public void setMaxStorage(int maxStorage) {
         this.maxStorage = maxStorage;
     }
 
-    protected void setMaxRecvBandwidth(int maxRecvBandwidth) {
+    public void setMaxRecvBandwidth(int maxRecvBandwidth) {
         this.maxRecvBandwidth = maxRecvBandwidth;
     }
 
-    protected void setMaxSendBandwidth(int maxSendBandwidth) {
+    public void setMaxSendBandwidth(int maxSendBandwidth) {
         this.maxSendBandwidth = maxSendBandwidth;
     }
 
-    protected int getMaxFiles() {
+    public int getMaxFiles() {
         return maxFiles;
     }
 
-    protected int getMaxStorage() {
+    public int getMaxStorage() {
         return maxStorage;
     }
 
-    protected int getMaxRecvBandwidth() {
+    public int getMaxRecvBandwidth() {
         return maxRecvBandwidth;
     }
 
-    protected int getMaxSendBandwidth() {
+    public int getMaxSendBandwidth() {
         return maxSendBandwidth;
     }
 
@@ -200,7 +200,7 @@ public abstract class BaseEntity {
      *
      * @param entity
      */
-    protected void normalTransferFile(BaseEntity entity) {
+    public void normalTransferFile(BaseEntity entity) {
         FileManager fm = this.getFileManager();
         ArrayList<File> recvFiles = fm.getInProgressFiles("RECV");
         if (!recvFiles.isEmpty()) {

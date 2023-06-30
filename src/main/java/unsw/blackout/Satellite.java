@@ -89,19 +89,19 @@ public abstract class Satellite extends BaseEntity {
                 otherSatellite.getPosition());
     }
 
-    protected void setLinearVelocity(double linearVelocity) {
+    public void setLinearVelocity(double linearVelocity) {
         this.linearVelocity = linearVelocity;
     }
 
-    protected void setSupportedDevices(String[] supportedDevices) {
+    public void setSupportedDevices(String[] supportedDevices) {
         this.supportedDevices = supportedDevices;
     }
 
-    protected double getLinearVelocity() {
+    public double getLinearVelocity() {
         return linearVelocity;
     }
 
-    protected String[] getSupportedDevices() {
+    public String[] getSupportedDevices() {
         return supportedDevices;
     }
 
