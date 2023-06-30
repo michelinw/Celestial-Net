@@ -1,83 +1,62 @@
 package unsw.blackout;
 
+import java.util.ArrayList;
+
 import unsw.utils.Angle;
 
-public class Device {
-    private String deviceId;
-    private String type;
-    private Angle position;
-    private FileManager files = new FileManager();
-
+public abstract class Device extends BaseEntity {
     public Device(String deviceId, String type, Angle position) {
-        this.deviceId = deviceId;
-        this.type = type;
-        this.position = position;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public Angle getPosition() {
-        return position;
-    }
-
-    public void setPosition(Angle position) {
-        this.position = position;
-    }
-
-    public FileManager getFileManager() {
-        return files;
-    }
-
-    @Override
-    public String toString() {
-        return "Device [deviceId=" + deviceId + ", type=" + type + ", position=" + position + "]";
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        Device other = (Device) obj;
-        if (deviceId == null) {
-            if (other.deviceId != null)
-                return false;
-        } else if (!deviceId.equals(other.deviceId))
-            return false;
-        if (type == null) {
-            if (other.type != null)
-                return false;
-        } else if (!type.equals(other.type))
-            return false;
-        if (position == null) {
-            if (other.position != null)
-                return false;
-        } else if (!position.equals(other.position))
-            return false;
-        return true;
+        super(deviceId, type, 69911, position);
+        this.setMaxFiles(Integer.MAX_VALUE);
+        this.setMaxRecvBandwidth(Integer.MAX_VALUE);
+        this.setMaxSendBandwidth(Integer.MAX_VALUE);
+        this.setMaxStorage(Integer.MAX_VALUE);
     }
 
     public void addFile(File file) {
-        files.addFile(file);
+        FileManager fileManager = this.getFileManager();
+        fileManager.addFile(file);
     }
 
+    @Override
+    public int remainingBandwidth(String direction) {
+        return Integer.MAX_VALUE;
+    }
+
+    @Override
+    public boolean hasStorage(int newFileSize) {
+        return true;
+    }
+
+    @Override
     public void simulate() {
+        this.normalTransferFile(this);
+        this.device2TeleportSatTransfer();
+
+    }
+
+    /**
+     * Special file transfer for teleporting satellites that will change file
+     * content if teleportation occurs during transfer.
+     */
+    private void device2TeleportSatTransfer() {
+        FileManager fileManager = this.getFileManager();
+        ArrayList<File> sendFiles = fileManager.getInProgressFiles("SEND");
+        if (!sendFiles.isEmpty()) {
+            for (File file : sendFiles) {
+                BaseEntity entity = file.getRelatedBaseEntity();
+
+                // checking if teleportsat is teleported. If yes, then reset device file
+                if (entity instanceof TeleportingSatellite && ((TeleportingSatellite) entity).getTeleported()) {
+                    String content = file.getContent();
+                    content = content.replace("t", "");
+                    file.setContent(content);
+                    file.setCompletedSize(0);
+                    file.setRelatedBaseEntity(null);
+                    file.setDirection("");
+                    fileManager.updateFile(file.getFilename(), file);
+                }
+            }
+        }
     }
 }

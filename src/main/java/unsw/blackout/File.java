@@ -3,10 +3,49 @@ package unsw.blackout;
 public class File {
     private String filename;
     private String content;
+    private int completedSize;
+    private String direction; // SEND or RECV
+    private BaseEntity relatedBaseEntity; // file send to or recv from which communication point
+    private String status;
 
-    public File(String filename, String content) {
+    public File(String filename, String content, int completedSize, String direction, BaseEntity relatedBase) {
         this.filename = filename;
         this.content = content;
+        this.completedSize = completedSize;
+        this.direction = direction;
+        this.relatedBaseEntity = relatedBase;
+    }
+
+    public File(String filename, String content, int completedSize) {
+        this.filename = filename;
+        this.content = content;
+        this.completedSize = completedSize;
+        this.direction = null;
+        this.relatedBaseEntity = null;
+    }
+
+    public void setCompletedSize(int completedSize) {
+        this.completedSize = completedSize;
+    }
+
+    public int getCompletedSize() {
+        return completedSize;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public BaseEntity getRelatedBaseEntity() {
+        return relatedBaseEntity;
+    }
+
+    public void setRelatedBaseEntity(BaseEntity relatedBaseEntity) {
+        this.relatedBaseEntity = relatedBaseEntity;
     }
 
     public String getFilename() {
@@ -17,48 +56,27 @@ public class File {
         return content;
     }
 
-    // public void setFilename(String filename) {
-    //     this.filename = filename;
-    // }
-
-    // public void setContent(String content) {
-    //     this.content = content;
-    // }
-
-    @Override
-    public String toString() {
-        return "File [filename=" + filename + ", content=" + content + "]";
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        File other = (File) obj;
-        if (filename == null) {
-            if (other.filename != null)
-                return false;
-        } else if (!filename.equals(other.filename))
-            return false;
-        return true;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getData() {
-        return content;
+        return this.getContent().substring(0, this.getCompletedSize());
     }
 
     public int getFileSize() {
-        int size = ((int) this.getContent().length());
-        return size;
+        return this.getContent().length();
     }
 
     public boolean getIsFileComplete() {
-        return true;
+        return (this.getCompletedSize() == this.getFileSize());
     }
 
+    public String getStatus() {
+        return status;
+    }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

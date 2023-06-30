@@ -1,97 +1,118 @@
 package unsw.blackout;
 
 import unsw.utils.Angle;
+import unsw.utils.MathsHelper;
+import static unsw.utils.MathsHelper.CLOCKWISE;
 
-public class Satellite {
-    private String satelliteId;
-    private String type;
-    private double height;
-    private Angle position;
+public abstract class Satellite extends BaseEntity {
+    private int direction;
+    private double linearVelocity;
+    private String[] supportedDevices;
 
     public Satellite(String satelliteId, String type, double height, Angle position) {
-        this.satelliteId = satelliteId;
-        this.type = type;
-        this.height = height;
-        this.position = position;
+        super(satelliteId, type, height, position);
+        this.direction = CLOCKWISE;
     }
 
-    public String getSatelliteId() {
-        return satelliteId;
+    public Angle getAngularVelocity() {
+        return Angle.fromRadians(this.linearVelocity / this.getHeight());
     }
 
-    public void setSatelliteId(String satelliteId) {
-        this.satelliteId = satelliteId;
+    public int getDirection() {
+        return direction;
     }
 
-    public String getType() {
-        return type;
+    public void setDirection(int direction) {
+        this.direction = direction;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
+    public void standardSatMovement() {
+        Angle currentAngle = this.getPosition();
+        Angle newAngle = currentAngle.subtract(this.getAngularVelocity());
 
-    public double getHeight() {
-        return height;
-    }
-
-    public void setHeight(double height) {
-        if (height < 0) {
-            throw new IllegalArgumentException("Height cannot be negative");
-        }
-        this.height = height;
-    }
-
-    public Angle getPosition() {
-        return position;
-    }
-
-    public void setPosition(Angle position) {
-        this.position = position;
-    }
-
-    @Override
-    public String toString() {
-        return "Satellite [satelliteId=" + satelliteId + ", type=" + type + ", height=" + height + ", position="
-                + position + "]";
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (!(obj instanceof Satellite))
-            return false;
-        Satellite other = (Satellite) obj;
-        if (satelliteId == null) {
-            if (other.satelliteId != null)
-                return false;
-        } else if (!satelliteId.equals(other.satelliteId))
-            return false;
-        return true;
-    }
-
-    public void simulate() {
-        // todo: simulate movement of satellite
-        double currentAngle = this.getPosition().toDegrees();
-
-        double newAngle = currentAngle + 1;
-        if (newAngle > 360) {
-            newAngle = newAngle - 360;
-        }
-
-        if (newAngle < 0) {
-            newAngle = newAngle + 360;
-        }
-
-        if (newAngle == 360) {
-            newAngle = 0;
-        }
-
-        if (this.type == "StandardSatellite") {
-            double angularVelocity = 2500 / (2 * Math.PI * this.height);
+        if (newAngle.compareTo(Angle.fromDegrees(0)) == -1) {
+            newAngle = newAngle.add(Angle.fromDegrees(360));
         }
 
         this.setPosition(newAngle);
+    }
+
+    public boolean supportsDevice(Device device) {
+        boolean isSupported = false;
+        for (String supportedDevice : this.supportedDevices) {
+            if (supportedDevice.equals(device.getType())) {
+                isSupported = true;
+                break;
+            }
+        }
+        return isSupported;
+    }
+
+    @Override
+    public int remainingBandwidth(String direction) {
+        FileManager fm = this.getFileManager();
+        int fileCount = fm.getInProgressFileCount(direction);
+        if (direction.equals("SEND")) {
+            if (fileCount < this.getMaxSendBandwidth()) {
+                return (int) (this.getMaxSendBandwidth() / (fileCount + 1));
+            } else {
+                return 0;
+            }
+        } else if (direction.equals("RECV")) {
+            if (fileCount < this.getMaxRecvBandwidth()) {
+                return (int) (this.getMaxRecvBandwidth() / (fileCount + 1));
+            } else {
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    @Override
+    public boolean hasStorage(int newFileSize) {
+        FileManager fm = this.getFileManager();
+        int totalFileCount = fm.getFiles().size();
+        if (totalFileCount < this.getMaxFiles()) {
+            if (fm.getTotalFileSize() + newFileSize < this.getMaxStorage()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isVisible(Device device) {
+        return MathsHelper.isVisible(this.getHeight(), this.getPosition(), device.getPosition());
+    }
+
+    public boolean isVisible(Satellite otherSatellite) {
+        return MathsHelper.isVisible(this.getHeight(), this.getPosition(), otherSatellite.getHeight(),
+                otherSatellite.getPosition());
+    }
+
+    protected void setLinearVelocity(double linearVelocity) {
+        this.linearVelocity = linearVelocity;
+    }
+
+    protected void setSupportedDevices(String[] supportedDevices) {
+        this.supportedDevices = supportedDevices;
+    }
+
+    protected double getLinearVelocity() {
+        return linearVelocity;
+    }
+
+    protected String[] getSupportedDevices() {
+        return supportedDevices;
+    }
+
+    public abstract void simulate();
+
+    public boolean supportSatellite(Satellite satellite) {
+        if (this instanceof ElephantSatellite) {
+            return !(satellite instanceof TeleportingSatellite);
+        } else if (this instanceof TeleportingSatellite) {
+            return !(satellite instanceof ElephantSatellite);
+        }
+        return true;
     }
 }

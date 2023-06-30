@@ -9,6 +9,7 @@ import unsw.response.models.EntityInfoResponse;
 import unsw.response.models.FileInfoResponse;
 import unsw.utils.Angle;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static blackout.TestHelpers.assertListAreEqualIgnoringOrder;
 
@@ -19,9 +20,9 @@ import java.util.Map;
 import static unsw.utils.MathsHelper.RADIUS_OF_JUPITER;
 
 @TestInstance(value = Lifecycle.PER_CLASS)
-public class Task1ExampleTests {
+public class Task1ExtraTests {
     @Test
-    public void testExample() {
+    public void testDifferentFileSizesMultipleFiles() {
         // Task 1
         // Example from the specification
         BlackoutController controller = new BlackoutController();
@@ -48,38 +49,6 @@ public class Task1ExampleTests {
                 controller.getInfo("DeviceB"));
         assertEquals(new EntityInfoResponse("DeviceC", Angle.fromDegrees(330), RADIUS_OF_JUPITER, "DesktopDevice"),
                 controller.getInfo("DeviceC"));
-    }
-
-    @Test
-    public void testDelete() {
-        // Task 1
-        BlackoutController controller = new BlackoutController();
-
-        // Creates 1 satellite and 3 devices and deletes them
-        controller.createSatellite("Satellite1", "StandardSatellite", 100 + RADIUS_OF_JUPITER, Angle.fromDegrees(340));
-        controller.createDevice("DeviceA", "HandheldDevice", Angle.fromDegrees(30));
-        controller.createDevice("DeviceB", "LaptopDevice", Angle.fromDegrees(180));
-        controller.createDevice("DeviceC", "DesktopDevice", Angle.fromDegrees(330));
-
-        assertListAreEqualIgnoringOrder(Arrays.asList("Satellite1"), controller.listSatelliteIds());
-        assertListAreEqualIgnoringOrder(Arrays.asList("DeviceA", "DeviceB", "DeviceC"), controller.listDeviceIds());
-
-        controller.removeDevice("DeviceA");
-        controller.removeDevice("DeviceB");
-        controller.removeDevice("DeviceC");
-        controller.removeSatellite("Satellite1");
-    }
-
-    @Test
-    public void basicFileSupport() {
-        // Task 1
-        BlackoutController controller = new BlackoutController();
-
-        // Creates 1 device and add some files to it
-        controller.createDevice("DeviceC", "DesktopDevice", Angle.fromDegrees(330));
-        assertListAreEqualIgnoringOrder(Arrays.asList("DeviceC"), controller.listDeviceIds());
-        assertEquals(new EntityInfoResponse("DeviceC", Angle.fromDegrees(330), RADIUS_OF_JUPITER, "DesktopDevice"),
-                controller.getInfo("DeviceC"));
 
         controller.addFileToDevice("DeviceC", "Hello World", "My first file!");
         Map<String, FileInfoResponse> expected = new HashMap<>();
@@ -88,5 +57,23 @@ public class Task1ExampleTests {
         assertEquals(
                 new EntityInfoResponse("DeviceC", Angle.fromDegrees(330), RADIUS_OF_JUPITER, "DesktopDevice", expected),
                 controller.getInfo("DeviceC"));
+
+        controller.addFileToDevice("DeviceA", "largeFile",
+                "FILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILE");
+        Map<String, FileInfoResponse> expected1 = new HashMap<>();
+        expected1.put("largeFile", new FileInfoResponse("largeFile",
+                "FILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILE",
+                "FILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILEFILE"
+                        .length(),
+                true));
+        assertEquals(new EntityInfoResponse("DeviceA", Angle.fromDegrees(30), RADIUS_OF_JUPITER, "HandheldDevice",
+                expected1), controller.getInfo("DeviceA"));
+
+        assertDoesNotThrow(() -> controller.addFileToDevice("DeviceA", "empty", ""));
+        expected1.put("empty", new FileInfoResponse("empty", "", "".length(), true));
+        assertEquals(new EntityInfoResponse("DeviceA", Angle.fromDegrees(30), RADIUS_OF_JUPITER, "HandheldDevice",
+                expected1), controller.getInfo("DeviceA"));
+
     }
+
 }

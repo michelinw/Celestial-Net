@@ -1,47 +1,97 @@
 package unsw.blackout;
 
-// import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.HashMap;
-// import java.util.List;
 import java.util.Map;
 
 import unsw.response.models.FileInfoResponse;
 
 public class FileManager {
-    private Map<String, FileInfoResponse> files;
-
+    private Map<String, File> filesMap;
 
     public FileManager() {
-        files = new HashMap<>();
+        filesMap = new HashMap<>();
     }
 
     public void addFile(File file) {
-        files.put(file.getFilename(), new FileInfoResponse(file.getFilename(), file.getData(), file.getFileSize(),
-                file.getIsFileComplete()));
+        filesMap.put(file.getFilename(), file);
     }
 
-    // public void removeFile(String filename) {
-    //     // Find the file with the specified name and remove it
-    //     for (int i = 0; i < files.size(); i++) {
-    //         File file = files.get(i);
-    //         if (file.getFilename().equals(filename)) {
-    //             files.remove(i);
-    //             break;
-    //         }
-    //     }
-    // }
+    public File getFile(String fileName) {
+        return filesMap.get(fileName);
+    }
 
     public Map<String, FileInfoResponse> getFiles() {
+        Map<String, FileInfoResponse> files = new HashMap<String, FileInfoResponse>();
+        for (String key : filesMap.keySet()) {
+            File file = filesMap.get(key);
+            files.put(file.getFilename(), new FileInfoResponse(file.getFilename(), file.getData(), file.getFileSize(),
+                    file.getIsFileComplete()));
+        }
         return files;
     }
 
-    // public File getFile(String filename) {
-    //     // Find the file with the specified name and return it
-    //     for (File file : files) {
-    //         if (file.getFilename().equals(filename)) {
-    //             return file;
-    //         }
-    //     }
-    //     return null;
-    // }
+    public ArrayList<File> getFilesList() {
+        ArrayList<File> filesList = new ArrayList<File>();
+        for (String key : filesMap.keySet()) {
+            filesList.add(filesMap.get(key));
+        }
+
+        return filesList;
+    }
+
+    public File updateFile(String fileName, File file) {
+        return filesMap.put(fileName, file);
+    }
+
+    public void removeFile(String fileName) {
+        filesMap.remove(fileName);
+    }
+
+    public ArrayList<File> getInProgressFiles(String direction) {
+        ArrayList<File> arrayList = new ArrayList<File>();
+        for (String key : filesMap.keySet()) {
+            File file = filesMap.get(key);
+            if (file.getDirection().equals(direction) && !file.getIsFileComplete()
+                    && !"transient".equals(file.getStatus())) {
+                arrayList.add(file);
+            }
+        }
+        return arrayList;
+    }
+
+    public int getInProgressFileCount(String direction) {
+        return this.getInProgressFiles(direction).size();
+    }
+
+    public ArrayList<File> getInTransientFiles() {
+        ArrayList<File> arrayList = new ArrayList<File>();
+        for (String key : filesMap.keySet()) {
+            File file = filesMap.get(key);
+            if (!file.getIsFileComplete() && "transient".equals(file.getStatus())) {
+                arrayList.add(file);
+            }
+        }
+        return arrayList;
+    }
+
+    public int getTotalFileSize() {
+        int size = 0;
+        for (String key : filesMap.keySet()) {
+            File file = filesMap.get(key);
+            size += file.getFileSize();
+        }
+        return size;
+    }
+
+    public int getNonTransientFileSize() {
+        int size = 0;
+        for (String key : filesMap.keySet()) {
+            File file = filesMap.get(key);
+            if (!file.getStatus().equals("transient")) {
+                size += file.getFileSize();
+            }
+        }
+        return size;
+    }
 }

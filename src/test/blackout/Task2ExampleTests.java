@@ -38,6 +38,9 @@ public class Task2ExampleTests {
         controller.createDevice("DeviceD", "HandheldDevice", Angle.fromDegrees(180));
         controller.createSatellite("Satellite3", "StandardSatellite", 2000 + RADIUS_OF_JUPITER, Angle.fromDegrees(175));
 
+        System.out.println(controller.communicableEntitiesInRange("Satellite1"));
+        System.out.println(Arrays.asList("DeviceC", "Satellite2"));
+
         assertListAreEqualIgnoringOrder(Arrays.asList("DeviceC", "Satellite2"),
                 controller.communicableEntitiesInRange("Satellite1"));
         assertListAreEqualIgnoringOrder(Arrays.asList("DeviceB", "DeviceC", "Satellite1"),
@@ -188,6 +191,10 @@ public class Task2ExampleTests {
         // It should take 250 simulations to reach theta = 180.
         // Simulate until Satellite1 reaches theta=180
         controller.simulate(250);
+
+        Angle angle = Angle.fromRadians(Math.PI);
+        System.out.println(angle.toDegrees());
+        System.out.println(controller.getInfo("Satellite1"));
 
         // Verify that Satellite1 is now at theta=0
         assertTrue(controller.getInfo("Satellite1").getPosition().toDegrees() % 360 == 0);

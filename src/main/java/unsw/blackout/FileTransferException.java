@@ -18,8 +18,8 @@ public class FileTransferException extends Exception {
     }
 
     /**
-     * Represents the case where the targeted file already existed on the target
-     * or was in the process of downloading.
+     * Represents the case where the targeted file already existed on the target or
+     * was in the process of downloading.
      */
     public static class VirtualFileAlreadyExistsException extends FileTransferException {
         public VirtualFileAlreadyExistsException(String message) {
@@ -28,8 +28,8 @@ public class FileTransferException extends Exception {
     }
 
     /**
-     * Represents the case when no more bandwidth exists for a satellite to
-     * be able to use for new devices.
+     * Represents the case when no more bandwidth exists for a satellite to be able
+     * to use for new devices.
      */
     public static class VirtualFileNoBandwidthException extends FileTransferException {
         public VirtualFileNoBandwidthException(String message) {
