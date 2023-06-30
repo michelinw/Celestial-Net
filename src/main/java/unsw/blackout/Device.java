@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import unsw.utils.Angle;
 
-public abstract class Device extends BaseEntity {
+public class Device extends BaseEntity {
     public Device(String deviceId, String type, Angle position) {
         super(deviceId, type, 69911, position);
         this.setMaxFiles(Integer.MAX_VALUE);
