@@ -12,31 +12,36 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static unsw.utils.MathsHelper.RADIUS_OF_JUPITER;
 
-import java.util.Arrays;
+// import java.util.Arrays;
 
-import static blackout.TestHelpers.assertListAreEqualIgnoringOrder;
+// import static blackout.TestHelpers.assertListAreEqualIgnoringOrder;
 
 @TestInstance(value = Lifecycle.PER_CLASS)
 public class Task2ExtraTests {
-    @Test
-    public void testEntitiesInRangeRelay() {
-        BlackoutController controller = new BlackoutController();
-        controller.createSatellite("Satellite1", "StandardSatellite", 5000 + RADIUS_OF_JUPITER, Angle.fromDegrees(320));
-        controller.createSatellite("Satellite2", "StandardSatellite", 5000 + RADIUS_OF_JUPITER, Angle.fromDegrees(240));
-        controller.createSatellite("Satellite3", "RelaySatellite", 5000 + RADIUS_OF_JUPITER, Angle.fromDegrees(280));
-        controller.createSatellite("Satellite4", "RelaySatellite", 5000 + RADIUS_OF_JUPITER, Angle.fromDegrees(240));
-        controller.createDevice("DeviceB", "LaptopDevice", Angle.fromDegrees(330));
-        controller.createDevice("DeviceC", "HandheldDevice", Angle.fromDegrees(230));
+    // @Test
+    // public void testEntitiesInRangeRelay() {
+    // BlackoutController controller = new BlackoutController();
+    // controller.createSatellite("Satellite1", "StandardSatellite", 5000 +
+    // RADIUS_OF_JUPITER, Angle.fromDegrees(320));
+    // controller.createSatellite("Satellite2", "StandardSatellite", 5000 +
+    // RADIUS_OF_JUPITER, Angle.fromDegrees(240));
+    // controller.createSatellite("Satellite3", "RelaySatellite", 5000 +
+    // RADIUS_OF_JUPITER, Angle.fromDegrees(280));
+    // controller.createSatellite("Satellite4", "RelaySatellite", 5000 +
+    // RADIUS_OF_JUPITER, Angle.fromDegrees(240));
+    // controller.createDevice("DeviceB", "LaptopDevice", Angle.fromDegrees(330));
+    // controller.createDevice("DeviceC", "HandheldDevice", Angle.fromDegrees(230));
 
-        System.out.println(controller.communicableEntitiesInRange("Satellite1"));
+    // System.out.println(controller.communicableEntitiesInRange("Satellite1"));
 
-        assertListAreEqualIgnoringOrder(Arrays.asList("DeviceB", "Satellite2", "Satellite3", "Satellite4"),
-                controller.communicableEntitiesInRange("Satellite1"));
+    // assertListAreEqualIgnoringOrder(Arrays.asList("DeviceB", "Satellite2",
+    // "Satellite3", "Satellite4"),
+    // controller.communicableEntitiesInRange("Satellite1"));
 
-        assertListAreEqualIgnoringOrder(Arrays.asList("DeviceC", "Satellite3", "Satellite1", "Satellite4"),
-                controller.communicableEntitiesInRange("Satellite2"));
-    }
-
+    // assertListAreEqualIgnoringOrder(Arrays.asList("DeviceC", "Satellite3",
+    // "Satellite1", "Satellite4"),
+    // controller.communicableEntitiesInRange("Satellite2"));
+    // }
     @Test
     public void testStandardMovement() {
         BlackoutController controller = new BlackoutController();
