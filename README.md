@@ -1,32 +1,54 @@
 # Introduction
 
+Welcome to CelestialNet, an Object-Oriented framework designed during the course COMP2511 for simulating satellite communication in an advanced future where society has expanded to occupy moons and asteroids around Jupiter. This framework focuses on modeling the communication between multiple satellites and devices, emphasizing file transfers as the primary form of communication.
+
 # Project Overview
 
-## Aim, Objectives, and Skills Demonstrated
+## Aim
+The primary goal of CelestialNet is to architect and model a non-trivial system where satellites and devices interact in a sophisticated manner. This involves simulating file transfers among satellites and devices, allowing for the addition and removal of these entities at runtime.
+
+## Objectives
+1. Model Satellites and Devices
+2. Implement Runtime Addition/Removal of Satellites and Devices
+3. Design 'Queries' for Current World State
+4. Enable File Transfers Between Satellites
+
+## Skills Demonstrated
+- Abstraction
+- Encapsulation
+- Composition
+- Inheritance
 
 # Stages of Developmen
+## Stage 1: Modeling Satellites and Devices
+Create a robust object model for satellites and devices, incorporating key attributes and behaviors. Utilize concepts of abstraction and encapsulation to represent these entities effectively.
+
+## Stage 2: Runtime Addition/Removal
+Implement mechanisms to dynamically add and remove satellites and devices during runtime. Ensure that the consequences of such actions are appropriately managed within the framework.
+
+## Stage 3: 'Queries' for World State
+Design a set of queries that provide insights into the current state of the world, including information about existing devices and satellites.
+
+## Stage 4: File Transfers
+Enable satellites and devices to send files to each other. Implement a simplified version of the modern internet's file transfer mechanism.
 
 # Key features
+- Dynamic addition/removal of satellites and devices
+- Query system for retrieving current world state
+- File transfer functionality between satellites and devices
 
 # Reflections
 
-## Challenges and Solutions
 ## Soft Skills Demonstrated
+- Problem-solving in the context of dynamic system changes
+- Effective collaboration in designing and implementing complex interactions
+- Thoughtful planning by modeling the domain, defining entities, and establishing relationships
+
 ## Learning
+Gain insights into architecting non-trivial systems, emphasizing the importance of abstraction, encapsulation, composition, and inheritance. Strengthen skills in geospatial and mathematical problem-solving. Learning programming by contract, adhering to the specification as a guide, implementing solutions according to the rules, testing implementations rigorously to ensure correctness and functionality.
+
 ## Techincal Knowledge
+Enhance your understanding of object-oriented design principles through the practical implementation of a satellite communication framework. Sharpen Java skills, VSCode proficiency, and critical thinking abilities.
 
 # Conclusion
-
-The aims of this assignment can be broken down into five major themes:
-Understanding the Problem Space. Problem spaces in which we build software can often be very complex. This assignment involves some geospatial and mathematical ideas (though you won’t have to do any mathematical derivation yourself) with a series of multifaceted interacting entities. Take some time to understand the problem by reading the spec a few times and clarifying anything you need to.
-Thoughtful Planning. You’ll need to model the domain by defining the entities present in the domain and their relationships. Start with a very rough pen and paper draft of this, you’ll be able to iterate on your design as you become more familiar with the problem space. 
-Programming by Contract. The specification outlines everything you have to implement - you’ll need to implement your solution according to the rules and test your solution to ensure correctness.
-Robust Programming. In developing the system, you will need to maintain good quality programming practices including code style as well as the overall design. One approach you can take is, for each task, to implement a rough solution to pass the tests, go back and refactor and make it nicely designed. Then repeat for the next task.
-Building Blocks. This assignment will build your skills in working with Java, the VSCode IDE and thinking critically that will help you throughout the rest of the course.
-
-
-1. Preamble and Problem
-A great deal of today's technology uses satellites which orbit the Earth in one way or another. For example, tagging photographs with their location, telecommunications, and even missile control systems. There are currently 4,550 active satellites (as of 2022) orbiting the Earth all together.
-In the far future, society has become advanced to the point where they have begun to occupy a series of moons and asteroids around the planet Jupiter. Individuals rely on satellites for all their communication desires. Three major satellites exist around Jupiter.
-This assessment aims to provide you with design experience for a non-trivial system. You will be architecting and modelling how these multiple satellites will communicate and function with various devices. The form of communication that you will be simulating is a simplified version of the modern internet, simply just file transfer. You can either upload a file to a satellite from a device, download a file from a satellite to a device, or send a file from a satellite to a satellite.
-Your solution should adopt an Object-Oriented approach that utilises concepts such as abstraction, encapsulation, composition, and inheritance, as taught in lectures.
+CelestialNet stands as a testament to the advanced capabilities of future society, where satellites and devices seamlessly communicate in a sophisticated manner. This framework, built on solid object-oriented principles, provides a foundation for modeling dynamic systems with runtime changes. The assignment's themes of understanding the problem space, thoughtful planning, programming by contract, robust programming, and building blocks contribute to a holistic learning experience. CelestialNet is ready to inspire and guide future architects in building advanced communication systems for the stars.
