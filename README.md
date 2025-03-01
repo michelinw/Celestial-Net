@@ -19,7 +19,7 @@ The primary goal of CelestialNet is to architect and model a non-trivial system 
 - Composition
 - Inheritance
 
-# Stages of Developmen
+# Stages of Development
 ## Stage 1: Modeling Satellites and Devices
 Create a robust object model for satellites and devices, incorporating key attributes and behaviors. Utilize concepts of abstraction and encapsulation to represent these entities effectively.
 
